@@ -1,5 +1,6 @@
 import pytz
 import settings_helper as sh
+import input_helper as ih
 from datetime import datetime, timedelta, timezone as dt_timezone
 from functools import partial
 from itertools import product, zip_longest, chain
@@ -18,11 +19,14 @@ def utc_now_iso():
 
 def dt_to_float_string(dt, fmt=FLOAT_STRING_FMT):
     """Return string representation of a utc_float from given dt object"""
-    return dt.strftime(fmt)
+    s = dt.strftime(fmt)
+    return repr(ih.from_string(s))
 
 
 def float_string_to_dt(float_string, fmt=FLOAT_STRING_FMT):
     """Return a dt object from a utc_float"""
+    if '.' not in float_string:
+        float_string = float_string + '.0'
     return datetime.strptime(str(float_string), fmt)
 
 
@@ -70,6 +74,8 @@ def utc_float_to_pretty(utc_float=None, fmt=None, timezone=None):
     """
     if not utc_float:
         utc_float = float(utc_now_float_string())
+    elif type(utc_float) == str and '.' not in utc_float:
+        utc_float = float(utc_float + '.0')
     if not fmt:
         if ADMIN_DATE_FMT:
             fmt = ADMIN_DATE_FMT
