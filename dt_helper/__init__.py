@@ -25,6 +25,7 @@ def dt_to_float_string(dt, fmt=FLOAT_STRING_FMT):
 
 def float_string_to_dt(float_string, fmt=FLOAT_STRING_FMT):
     """Return a dt object from a utc_float"""
+    float_string = str(float_string)
     if '.' not in float_string:
         float_string = float_string + '.0'
     return datetime.strptime(str(float_string), fmt)
