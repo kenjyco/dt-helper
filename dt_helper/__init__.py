@@ -20,7 +20,10 @@ def utc_now_iso():
 def dt_to_float_string(dt, fmt=FLOAT_STRING_FMT):
     """Return string representation of a utc_float from given dt object"""
     s = dt.strftime(fmt)
-    return repr(ih.from_string(s))
+    result = ih.from_string(s)
+    if type(result) != str:
+        result = repr(result)
+    return result
 
 
 def float_string_to_dt(float_string, fmt=FLOAT_STRING_FMT):
