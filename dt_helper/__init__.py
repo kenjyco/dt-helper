@@ -34,6 +34,11 @@ def float_string_to_dt(float_string, fmt=FLOAT_STRING_FMT):
     return datetime.strptime(str(float_string), fmt)
 
 
+def local_now_string(fmt=FLOAT_STRING_FMT):
+    """Return string representation of local time right now"""
+    return dt_to_float_string(datetime.now(), fmt)
+
+
 def utc_now_float_string(fmt=FLOAT_STRING_FMT):
     """Return string representation of a utc_float for right now"""
     return dt_to_float_string(datetime.utcnow(), fmt)
