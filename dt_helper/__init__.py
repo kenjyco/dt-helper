@@ -1,7 +1,7 @@
 import pytz
 import settings_helper as sh
 import input_helper as ih
-from datetime import datetime, timedelta, timezone as dt_timezone
+from datetime import datetime, time, timedelta, timezone as dt_timezone
 from functools import partial
 from itertools import product, zip_longest, chain
 
@@ -45,9 +45,23 @@ def seconds_to_duration(seconds):
     return ', '.join(parts)
 
 
+def utc_now_localized():
+    """Return a localized datetime object for current UTC time"""
+    return pytz.utc.localize(datetime.utcnow())
+
+
 def utc_now_iso():
     """Return current UTC timestamp in ISO format"""
     return datetime.utcnow().isoformat()
+
+
+def days_ago(days=0, timezone="America/Chicago"):
+    """Return datetime object representing UTC start of day for timezone"""
+    days = days if days >= 0 else 0
+    tz = pytz.timezone(timezone)
+    today = utc_now_localized().astimezone(tz).date()
+    dt = tz.localize(datetime.combine(today - timedelta(days=days), time()))
+    return dt.astimezone(pytz.utc)
 
 
 def dt_to_float_string(dt, fmt=FLOAT_STRING_FMT):
@@ -154,6 +168,28 @@ def date_string_to_utc_float_string(date_string, timezone=None):
             dt = tz.localize(dt).astimezone(pytz.utc)
         s = dt_to_float_string(dt)
     return s
+
+
+def date_string_to_datetime(date_string, fmt='%Y-%m-%d', timezone=None):
+    """Return a date object for a string of a given format."""
+    if isinstance(date_string, datetime):
+        return date_string
+    try:
+        dt = datetime.strptime(date_string, fmt)
+    except ValueError:
+        # Truncate fractional seconds from string if not included in fmt
+        dt = datetime.strptime(date_string.split('.')[0], fmt)
+
+    if timezone:
+        tz = pytz.timezone(timezone)
+        return tz.localize(dt)
+    return dt
+
+
+def date_start_utc(date_string, fmt='%Y-%m-%d', timezone="America/Chicago"):
+    """Return datetime object representing UTC start of day for timezone on date"""
+    dt = date_string_to_datetime(date_string, fmt=fmt, timezone=timezone)
+    return dt.astimezone(pytz.utc)
 
 
 def get_time_ranges_and_args(**kwargs):
