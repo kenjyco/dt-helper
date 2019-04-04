@@ -6,14 +6,14 @@ with open('README.rst', 'r') as fp:
 
 setup(
     name='dt-helper',
-    version='0.0.5',
+    version='0.0.6',
     description='Helper funcs for doing things with datetime objects and UTC floats',
     long_description=long_description,
     author='Ken',
     author_email='kenjyco@gmail.com',
     license='MIT',
     url='https://github.com/kenjyco/dt-helper',
-    download_url='https://github.com/kenjyco/dt-helper/tarball/v0.0.5',
+    download_url='https://github.com/kenjyco/dt-helper/tarball/v0.0.6',
     packages=find_packages(),
     install_requires=[
         'pytz',
