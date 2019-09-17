@@ -1,2 +1,6 @@
 pytz
 settings-helper
+
+# For development
+ipython
+pdbpp
