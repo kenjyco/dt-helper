@@ -10,39 +10,6 @@ get_setting = sh.settings_getter(__name__)
 FLOAT_STRING_FMT = '%Y%m%d%H%M%S.%f'
 ADMIN_TIMEZONE = get_setting('admin_timezone')
 ADMIN_DATE_FMT = get_setting('admin_date_fmt')
-SECONDS_IN_HOUR = 60 * 60
-SECONDS_IN_DAY = SECONDS_IN_HOUR * 24
-SECONDS_IN_WEEK = SECONDS_IN_DAY * 7
-
-
-def seconds_to_duration(seconds):
-    """Return a string representing the number of seconds as a duration"""
-    parts = []
-    weeks, seconds = divmod(seconds, SECONDS_IN_WEEK)
-    if weeks > 0:
-        part = '{} '.format(int(weeks))
-        part += 'week' if weeks == 1 else 'weeks'
-        parts.append(part)
-    days, seconds = divmod(seconds, SECONDS_IN_DAY)
-    if days > 0:
-        part = '{} '.format(int(days))
-        part += 'day' if days == 1 else 'days'
-        parts.append(part)
-    hours, seconds = divmod(seconds, SECONDS_IN_HOUR)
-    if hours > 0:
-        part = '{} '.format(int(hours))
-        part += 'hour' if hours == 1 else 'hours'
-        parts.append(part)
-    minutes, seconds = divmod(seconds, 60)
-    if minutes > 0:
-        part = '{} '.format(int(minutes))
-        part += 'minute' if minutes == 1 else 'minutes'
-        parts.append(part)
-    if seconds > 0:
-        part = '{} '.format(seconds)
-        part += 'second' if seconds == 1 else 'seconds'
-        parts.append(part)
-    return ', '.join(parts)
 
 
 def utc_now_localized():
