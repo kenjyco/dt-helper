@@ -120,7 +120,8 @@ def date_string_to_utc_float_string(date_string, timezone=None):
     dt = None
     s = None
     for fmt in [
-        '%Y-%m-%d %H:%M:%S', '%Y-%m-%d %H:%M', '%Y-%m-%d %H', '%Y-%m-%d', '%Y-%m', '%Y'
+        '%Y-%m-%d %H:%M:%S.%f', '%Y-%m-%d %H:%M:%S', '%Y-%m-%d %H:%M',
+        '%Y-%m-%d %H', '%Y-%m-%d', '%Y-%m', '%Y'
     ]:
         try:
             dt = datetime.strptime(str(date_string), fmt)
