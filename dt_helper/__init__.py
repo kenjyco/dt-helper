@@ -138,7 +138,7 @@ def date_string_to_utc_float_string(date_string, timezone=None):
 
 
 def date_string_to_datetime(date_string, fmt='%Y-%m-%d', timezone=None):
-    """Return a date object for a string of a given format."""
+    """Return a datetime object for a string of a given format."""
     if isinstance(date_string, datetime):
         return date_string
     try:
