@@ -22,6 +22,23 @@ def utc_now_iso():
     return datetime.utcnow().isoformat()
 
 
+def utc_localized_from_iso_timestamp(date_string):
+    """Return a UTC localized datetime object from a timezone-aware ISO timestamp
+
+    If there is no timezone info, assume the date_string is already in UTC. If
+    it is not a valid ISO timestamp, return None.
+    """
+    try:
+        dt = datetime.fromisoformat(date_string)
+    except:
+        return
+
+    if dt.tzinfo is not None:
+        return dt.astimezone(dt_timezone.utc)
+    else:
+        return dt.replace(tzinfo=dt_timezone.utc)
+
+
 def days_ago(days=0, timezone="America/Chicago"):
     """Return datetime object representing UTC start of day for timezone"""
     days = days if days >= 0 else 0
