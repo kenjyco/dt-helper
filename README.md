@@ -67,6 +67,10 @@ print(ranges)
   - Returns: String timestamp like '20231215142530.123456'
   - Internal calls: `dt_to_float_string()`
 
+- **`get_utcnow()`** - Current UTC time as non-localized datetime object
+  - Returns: datetime object in UTC
+  - Internal calls: None
+
 - **`utc_now_localized()`** - Current UTC time as timezone-aware datetime object
   - Returns: pytz-localized datetime object in UTC
   - Internal calls: None
@@ -83,7 +87,7 @@ print(ranges)
   - `now` - Reference time (utc_float string or None for current time)
   - `fmt` - Output format
   - Returns: String timestamp or None if invalid input
-  - Internal calls: `float_string_to_dt()`, `dt_to_float_string()`
+  - Internal calls: `float_string_to_dt()`, `dt_to_float_string()`, `get_utcnow()`
 
 - **`days_ago(days=0, timezone="America/Chicago")`** - Start of day N days ago in timezone
   - `days` - Number of days back (non-negative)
@@ -131,12 +135,12 @@ print(ranges)
 
 - **`utc_now_iso()`** - Current time in ISO format
   - Returns: ISO format string like '2023-12-15T14:25:30.123456'
-  - Internal calls: None
+  - Internal calls: `get_utcnow()`
 
 - **`utc_localized_from_iso_timestamp(date_string)`** - Parse ISO timestamp to UTC
   - `date_string` - ISO format timestamp (timezone-aware or UTC assumed)
   - Returns: UTC localized datetime object or None if invalid
-  - Internal calls: None
+  - Internal calls: `get_utcnow()`
 
 ### Advanced Date Operations
 

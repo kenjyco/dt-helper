@@ -1,9 +1,20 @@
 import pytz
+import sys
 import settings_helper as sh
 import input_helper as ih
 from datetime import datetime, time, timedelta, timezone as dt_timezone
 from functools import partial
 from itertools import product, zip_longest, chain
+try:
+    ModuleNotFoundError
+except NameError:
+    class ModuleNotFoundError(ImportError):
+        pass
+
+try:
+    from datetime import UTC
+except (ImportError, ModuleNotFoundError):
+    UTC = None
 
 
 get_setting = sh.settings_getter(__name__)
@@ -12,14 +23,26 @@ ADMIN_TIMEZONE = get_setting('admin_timezone')
 ADMIN_DATE_FMT = get_setting('admin_date_fmt')
 
 
+def get_utcnow():
+    """Return a non-localized datetime object for current UTC time"""
+    if sys.version_info >= (3, 11):
+        # DeprecationWarning when using datetime.utcnow() in Python 3.11+
+        return datetime.now(UTC).replace(tzinfo=None)
+    else:
+        return datetime.utcnow()
+
+
 def utc_now_localized():
     """Return a localized datetime object for current UTC time"""
-    return pytz.utc.localize(datetime.utcnow())
+    if sys.version_info < (3, 11):
+        return pytz.utc.localize(datetime.utcnow())
+    else:
+        return datetime.now(UTC)
 
 
 def utc_now_iso():
     """Return current UTC timestamp in ISO format"""
-    return datetime.utcnow().isoformat()
+    return get_utcnow().isoformat()
 
 
 def utc_localized_from_iso_timestamp(date_string):
@@ -72,7 +95,7 @@ def local_now_string(fmt=FLOAT_STRING_FMT):
 
 def utc_now_float_string(fmt=FLOAT_STRING_FMT):
     """Return string representation of a utc_float for right now"""
-    return dt_to_float_string(datetime.utcnow(), fmt)
+    return dt_to_float_string(get_utcnow(), fmt)
 
 
 def utc_ago_float_string(num_unit, now=None, fmt=FLOAT_STRING_FMT):
@@ -84,7 +107,7 @@ def utc_ago_float_string(num_unit, now=None, fmt=FLOAT_STRING_FMT):
     Valid units are: (se)conds, (mi)nutes, (ho)urs, (da)ys, (we)eks, hr, wk
     """
     if now is None:
-        now = datetime.utcnow()
+        now = get_utcnow()
     else:
         now = float_string_to_dt(now)
     val = None
