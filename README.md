@@ -24,13 +24,17 @@ Install with `pip`
 pip install dt-helper
 ```
 
-## Default settings.ini
+## Configuration
+
+dt-helper uses a settings.ini file for configuration:
 
 ```ini
 [default]
 admin_timezone = America/Chicago
 admin_date_fmt = %a %m/%d/%Y %I:%M:%S %p
 ```
+
+> On first use, the default settings.ini file is copied to `~/.config/dt-helper/settings.ini`
 
 ## QuickStart
 
