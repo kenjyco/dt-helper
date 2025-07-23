@@ -14,6 +14,8 @@ The `'%Y%m%d%H%M%S.%f'` format for "UTC float strings" enables instant visual pa
 - Log analysis and debugging with instantly readable timestamps
 - Cross-system data integration where timestamp format consistency matters
 
+Tested for Python 3.5 - 3.13.
+
 ## Install
 
 Install with `pip`
